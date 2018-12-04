@@ -14,8 +14,6 @@ foreach($boxes as $box) {
     }
 }
 
-var_dump($similarBoxes);
-
 $similarBoxes = array_map(
     function ($value) {
         return str_split($value);
