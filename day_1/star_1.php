@@ -1,12 +1,8 @@
 <?php
 
-$frequencies = array_filter(array_map(
-    function ($value) {
-        return (int)$value;
-    },
-    explode("\n", file_get_contents(__DIR__ . '/frequencies.txt'))
-));
+require_once '../helpers.php';
 
+$frequencies = loadFile(__DIR__ . '/frequencies.txt', 'int');
 $final = array_sum($frequencies);
 
 echo "$final\n";
