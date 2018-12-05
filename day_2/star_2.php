@@ -14,14 +14,14 @@ foreach($boxes as $box) {
     }
 }
 
-$similarBoxes = array_map(
+$boxChars = array_map(
     function ($value) {
         return str_split($value);
     },
     array_keys($similarBoxes)
 );
 
-$similarBoxes = implode(array_intersect_assoc(...$similarBoxes));
+$commonChars = implode(array_intersect_assoc(...$boxChars));
 
-echo "$similarBoxes\n";
+echo "$commonChars\n";
 exit;

@@ -1,15 +1,18 @@
 <?php
 
-function loadFile($path, $cast = null)
+function loadFile($path, Closure $callback = null)
 {
-    return array_filter(array_map(
-        function ($value) use ($cast) {
-            if($cast !== null) {
-                settype($value, $cast);
+    return array_map(
+        function ($value) use ($callback) {
+
+            if($callback !== null) {
+                return $callback($value);
             }
 
             return $value;
         },
-        explode("\n", file_get_contents($path))
-    ));
+        array_filter(
+            explode("\n", file_get_contents($path))
+        )
+    );
 }

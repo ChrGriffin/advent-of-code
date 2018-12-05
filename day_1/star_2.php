@@ -19,7 +19,10 @@ function calibrate($frequencies, $current = 0, $prevFrequencies = [0])
     return calibrate($frequencies, $current, $prevFrequencies);
 }
 
-$frequencies = loadFile(__DIR__ . '/frequencies.txt', 'int');
+$frequencies = loadFile(__DIR__ . '/frequencies.txt', function ($frequency) {
+    return (int)$frequency;
+});
+
 $twice = calibrate($frequencies);
 
 echo "$twice\n";
