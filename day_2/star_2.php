@@ -2,6 +2,7 @@
 
 require_once '../helpers.php';
 
+// load and parse boxes from the txt file
 $boxes = loadFile(__DIR__ . '/boxes.txt');
 
 $similarBoxes = [];

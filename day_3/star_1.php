@@ -2,6 +2,15 @@
 
 require_once '../helpers.php';
 
+/**
+ * Return an array of every grid coordinate used by the given patch.
+ *
+ * @param int $x
+ * @param int $y
+ * @param int $width
+ * @param int $height
+ * @return array
+ */
 function getPatchGrid(int $x, int $y, int $width, int $height)
 {
     $grid = [];
@@ -21,6 +30,7 @@ function getPatchGrid(int $x, int $y, int $width, int $height)
     return $grid;
 }
 
+// load and parse claims from the txt file
 $claims = loadFile(__DIR__ . '/claims.txt', function ($value) {
     preg_match("/#(\d+) @ (\d+),(\d+): (\d+)x(\d+)/", $value, $matches);
 
