@@ -43,27 +43,35 @@ $claims = loadFile(__DIR__ . '/claims.txt', function ($value) {
     ];
 });
 
-// all the code below could easily be part of the loadFile callback
-// but in the interest of having an obvious flow of logic
-// we'll separate it out here
-
-// count how many times each grid coordinate occurs
-$gridFrequency = array_count_values(array_merge(...array_map(
-    function ($claim) {
-        return getPatchGrid(
+// convert all claim parameters to a grid of coordinates
+$claims = array_map(function ($claim) {
+    return [
+        'id' => $claim['id'],
+        'grid' => getPatchGrid(
             $claim['x'],
             $claim['y'],
             $claim['width'],
             $claim['height']
-        );
-    },
-    $claims
-)));
+        )
+    ];
+}, $claims);
 
-// filter the grid coordinates to ones that occur more than once and count the result
-$repeats = count(array_filter($gridFrequency, function ($count) {
-    return $count > 1;
-}));
+// get a count of how often every grid coordinate occurs
+$gridFrequency = array_count_values(array_merge(...array_map(function ($claim) {
+    return $claim['grid'];
+}, $claims)));
 
-echo "$repeats\n";
+// filter our claims down to ones whose coordinates only occur once
+$uniqueClaims = array_filter($claims, function ($claim) use ($gridFrequency) {
+    foreach($claim['grid'] as $coord) {
+        if($gridFrequency[$coord] > 1) {
+            return false;
+        }
+    }
+
+    return true;
+});
+
+// return our first unique claim
+echo array_values($uniqueClaims)[0]['id'] . "\n";
 exit;
