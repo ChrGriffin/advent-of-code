@@ -13,15 +13,18 @@ $events = loadFile(__DIR__ . '/events.txt', function ($event) {
 
     preg_match("/\[(.+)\] (.+)/", $event, $matches);
 
-    switch (true) {
-        case $matches[2] === 'wakes up':
+    switch ($matches[2]) {
+
+        case 'wakes up':
             $eventType = EVENT_WAKE_UP;
             $data = [];
             break;
-        case $matches[2] === 'falls asleep':
+
+        case 'falls asleep':
             $eventType = EVENT_FALL_ASLEEP;
             $data = [];
             break;
+
         default:
             $eventType = EVENT_NEW_GUARD;
 
@@ -54,6 +57,7 @@ $fellAsleepAt = null;
 foreach($events as $event) {
 
     switch($event['type']) {
+
         case EVENT_NEW_GUARD:
             $currentGuardId = $event['data']['guard_id'];
             $fellAsleepAt = null;
@@ -69,7 +73,6 @@ foreach($events as $event) {
             break;
 
         case EVENT_WAKE_UP:
-
             $minutesAsleep = range(
                 date('i', $fellAsleepAt),
                 ((int)date('i', strtotime($event['date']))) - 1
